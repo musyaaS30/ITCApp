@@ -7,9 +7,20 @@ import {
   GraduationCap,
 } from "lucide-react";
 import { Button } from "../components/Button";
-import blueIlustration from "../assets/abstrak-image.jpg";
 import PortfolioMenu from "../components/menu/PortfolioMenu";
-import blueIlustration2 from "../assets/blue-ilustration.jpg";
+
+import blueIlustration from "../assets/abstrak-image.webp";
+import blueIlustration2 from "../assets/blue-ilustration.webp";
+
+import webIcon from "../assets/illustrations/webImage.webp";
+import designIcon from "../assets/illustrations/designImage.webp";
+import roboticIcon from "../assets/illustrations/roboticImage.webp";
+import portfolioIcon from "../assets/illustrations/portfolioImage.webp";
+
+import rplStudentIllustration from "../assets/articles/rplStudentIllustration.webp";
+import nonRplStudentIllustration from "../assets/articles/nonRplStudentIllustration.webp";
+import mentorIllustration from "../assets/articles/mentorIllustration.webp";
+import AnimatedBorder from "../components/AnimatedBorder";
 
 export default function Landing() {
   const articles = [
@@ -18,8 +29,7 @@ export default function Landing() {
       title: "Anak RPL? Ini Tempatmu!",
       description:
         "Kamu udah belajar coding di kelas, sekarang saatnya bikin sesuatu yang bisa dipamerin. Di sini kita fokus bikin portofolio nyata — mulai dari website sampai aplikasi mobile.",
-      image:
-        "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=800",
+      image: rplStudentIllustration,
       link: "/rpl-info",
     },
     {
@@ -27,17 +37,15 @@ export default function Landing() {
       title: "Bukan RPL tapi Pengen Masuk? Gas!",
       description:
         "Dari jurusan MP, AKL, atau BR? Gapapa! IT Club bukan eksklusif buat RPL aja. Kalau kamu penasaran sama dunia desain atau digital, yuk langsung gabung.",
-      image:
-        "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800",
+      image: nonRplStudentIllustration,
       link: "/non-rpl-info",
     },
     {
       id: 3,
-      title: "Dibimbing Langsung Sama Kak Alumni",
+      title: "Belajar Bareng Senior & Kakel",
       description:
-        "Belajar bareng kakak alumni yang udah kerja di startup dan perusahaan tech. Dapet insight dunia kerja, bukan cuma teori dari buku.",
-      image:
-        "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800",
+        "Nggak belajar sendirian! Kamu bakal dibimbing bareng kakak kelas dan alumni yang siap bantu dari dasar sampai bisa bikin project sendiri.",
+      image: mentorIllustration,
       link: "/mentors",
     },
   ];
@@ -82,6 +90,7 @@ export default function Landing() {
           {/* Right: Image */}
           <div className="flex-1 w-full">
             <img
+              loading="lazy"
               src={blueIlustration}
               alt="IT Club Hero"
               className="w-full h-auto rounded-2xl object-cover"
@@ -106,100 +115,132 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Card 1 */}
-            <div className="bg-canvas border border-hairline p-[24px] hover:border-primary transition-all hover:bg-surface-1 group">
-              <img
-                src="https://plus.unsplash.com/premium_vector-1734405758703-2d4c7bd07328?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt=""
-                className="w-[80px] aspect-square object-cover mb-2"
-              />
-              <h3 className="text-[20px] lg:text-[24px] mb-4">
-                Web Development
-              </h3>
-              <p className="text-[14px] text-ink-muted leading-[1.5]">
-                Dari HTML, CSS, sampai JavaScript dan framework kekinian. Kita
-                bikin website beneran, bukan cuma tugas sekolah.
-              </p>
+            <div className="relative bg-canvas border border-hairline p-[24px] transition-all hover:bg-surface-1 group cursor-pointer">
+              <AnimatedBorder />
+              <div className="relative z-10">
+                <img
+                  loading="lazy"
+                  src={webIcon}
+                  alt="webIcon"
+                  className="w-[80px] aspect-square object-cover mb-2"
+                />
+                <h3 className="text-[20px] lg:text-[24px] mb-4">
+                  Web Development
+                </h3>
+                <p className="text-[14px] text-ink-muted leading-[1.5]">
+                  Dari HTML, CSS, sampai JavaScript dan framework kekinian. Kita
+                  bikin website beneran, bukan cuma tugas sekolah.
+                </p>
+              </div>
             </div>
 
             {/* Card 2 */}
-            <div className="bg-canvas border border-hairline p-[24px] hover:border-primary transition-all hover:bg-surface-1 group">
-              <img
-                src="https://plus.unsplash.com/premium_vector-1753481715818-e399c4f3bb7f?q=80&w=956&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt=""
-                className="w-[80px] aspect-square object-cover mb-2"
-              />
-              <h3 className="text-[20px] lg:text-[24px] mb-4">UI/UX Design</h3>
-              <p className="text-[14px] text-ink-muted leading-[1.5]">
-                Belajar desain pakai Figma dan Canva. Bikin tampilan aplikasi
-                yang nggak cuma bagus, tapi juga enak dipakai.
-              </p>
+            <div className="relative bg-canvas border border-hairline p-[24px] transition-all hover:bg-surface-1 group cursor-pointer">
+              <AnimatedBorder />
+              <div className="relative z-10">
+                <img
+                  loading="lazy"
+                  src={designIcon}
+                  alt="designIcon"
+                  className="w-[80px] aspect-square object-cover mb-2"
+                />
+                <h3 className="text-[20px] lg:text-[24px] mb-4">
+                  UI/UX Design
+                </h3>
+                <p className="text-[14px] text-ink-muted leading-[1.5]">
+                  Belajar desain pakai Figma dan Canva. Bikin tampilan aplikasi
+                  yang nggak cuma bagus, tapi juga enak dipakai.
+                </p>
+              </div>
             </div>
 
             {/* Card 3 */}
-            <div className="bg-canvas border border-hairline p-[24px] hover:border-primary transition-all hover:bg-surface-1 group">
-              <img
-                src="https://plus.unsplash.com/premium_vector-1761061737269-363f55b8518c?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt=""
-                className="w-[80px] aspect-square object-cover mb-2"
-              />
-              <h3 className="text-[20px] lg:text-[24px] mb-4">Robotik</h3>
-              <p className="text-[14px] text-ink-muted leading-[1.5]">
-                Penasaran sama Arduino dan sistem otomatis? Di sini kita rakit
-                dan program robot bareng — seru banget, serius!
-              </p>
+            <div className="relative bg-canvas border border-hairline p-[24px] transition-all hover:bg-surface-1 group cursor-pointer">
+              <AnimatedBorder />
+              <div className="relative z-10">
+                <img
+                  loading="lazy"
+                  src={roboticIcon}
+                  alt="roboticIcon"
+                  className="w-[80px] aspect-square object-cover mb-2"
+                />
+                <h3 className="text-[20px] lg:text-[24px] mb-4">Robotik</h3>
+                <p className="text-[14px] text-ink-muted leading-[1.5]">
+                  Penasaran sama Arduino dan sistem otomatis? Di sini kita rakit
+                  dan program robot bareng — seru banget, serius!
+                </p>
+              </div>
             </div>
 
             {/* Card 4 */}
-            <div className="bg-canvas border border-hairline p-[24px] hover:border-primary transition-all hover:bg-surface-1 group">
-              <Smartphone className="w-8 h-8 text-primary mb-6" />
-              <h3 className="text-[20px] lg:text-[24px] mb-4">
-                Project Portofolio
-              </h3>
-              <p className="text-[14px] text-ink-muted leading-[1.5]">
-                Ngerjain proyek nyata yang bisa masuk CV. Pas lulus nanti, kamu
-                udah punya sesuatu buat dipamerin ke HRD.
-              </p>
+            <div className="relative bg-canvas border border-hairline p-[24px] transition-all hover:bg-surface-1 group cursor-pointer">
+              <AnimatedBorder />
+              <div className="relative z-10">
+                <img
+                  loading="lazy"
+                  src={portfolioIcon}
+                  alt="portfolioIcon"
+                  className="w-[80px] aspect-square object-cover mb-2"
+                />
+                <h3 className="text-[20px] lg:text-[24px] mb-4">
+                  Project Portofolio
+                </h3>
+                <p className="text-[14px] text-ink-muted leading-[1.5]">
+                  Ngerjain proyek nyata yang bisa masuk CV. Pas lulus nanti,
+                  kamu udah punya sesuatu buat dipamerin ke HRD.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Requirement / Info Section */}
-      <section className="relative py-20 px-[5%] overflow-hidden">
+      <section className="relative py-24 px-[5%] overflow-hidden">
         {/* Background Image Container */}
         <div className="absolute inset-0 z-0">
           <img
+            loading="lazy"
             src={blueIlustration2}
             alt="Background"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-white/40"></div>
+          <div className="absolute inset-0 bg-white/20"></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto">
           {/* Header Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-16">
             <div>
               <h2 className="text-[52px] md:text-[62px] font-medium mb-6 leading-tight text-ink">
-                Emang Buat <br /> Siapa Aja?
+                Emang{" "}
+                <span className="relative inline-block px-2">
+                  <span className="absolute inset-0 bg-canvas -skew-y-2 -z-10 rounded-md"></span>
+                  <span className="relative z-10">Buat</span>
+                </span>{" "}
+                <br />
+                <span className="relative inline-block px-2 mt-2">
+                  <span className="absolute inset-0 bg-canvas skew-y-2 -z-10 rounded-md"></span>
+                  <span className="relative z-10">Siapa</span>
+                </span>{" "}
+                Aja?
               </h2>
             </div>
 
-            <div className="bg-white/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/20 shadow-xl">
-              <ul className="space-y-6">
-                <li className="flex items-start">
-                  <div className="p-2 bg-black rounded-lg mr-4 mt-1 shrink-0">
-                    <GraduationCap className="w-8 h-8 text-white" />
-                  </div>
-                  <span className="text-lg text-ink-muted">
-                    <strong className="text-ink">
-                      Utamanya sih buat anak RPL,
-                    </strong>{" "}
-                    tapi kalau kamu dari jurusan lain (BR, MP, AKL) dan pengen
-                    belajar IT, pintu kita selalu terbuka!
-                  </span>
-                </li>
-              </ul>
+            {/* Info Card - Glassmorphism dipertajam */}
+            <div className="bg-canvas p-8 md:p-10 rounded-sm border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
+              <div className="flex items-start gap-5">
+                <div className="p-3 bg-gray-900 rounded-2xl shrink-0 shadow-lg mt-1">
+                  <GraduationCap className="w-8 h-8 text-white" />
+                </div>
+                <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
+                  <strong className="text-gray-900 font-bold">
+                    Utamanya sih buat anak RPL,
+                  </strong>{" "}
+                  tapi kalau kamu dari jurusan lain (BR, MP, AKL) dan pengen
+                  belajar IT, pintu kita selalu terbuka!
+                </p>
+              </div>
             </div>
           </div>
 
@@ -208,20 +249,24 @@ export default function Landing() {
             {articles.map((article) => (
               <div
                 key={article.id}
-                className="group cursor-pointer flex flex-col"
+                className="group cursor-pointer flex flex-col bg-canvas border border-white/50 rounded-sm p-4 transition-all duration-300 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:bg-surface-1 border-hairline hover:border-primary "
               >
-                <div className="aspect-[16/9] overflow-hidden rounded-3xl mb-6 shadow-lg border border-white/20">
+                {/* Image Container */}
+                <div className="aspect-[16/9] overflow-hidden rounded-sm mb-6 bg-gray-100">
                   <img
+                    loading="lazy"
                     src={article.image}
                     alt={article.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
-                <div className="flex flex-col">
-                  <h3 className="text-2xl md:text-3xl font-bold leading-snug mb-3 group-hover:underline transition-colors text-ink">
+
+                {/* Text Container */}
+                <div className="px-3 pb-4 flex flex-col flex-1">
+                  <h3 className="text-2xl font-bold leading-snug mb-3 text-gray-900 group-hover:text-primary transition-colors">
                     {article.title}
                   </h3>
-                  <p className="text-ink-muted text-sm md:text-base leading-relaxed line-clamp-3">
+                  <p className="text-gray-600 text-base leading-relaxed line-clamp-3">
                     {article.description}
                   </p>
                 </div>

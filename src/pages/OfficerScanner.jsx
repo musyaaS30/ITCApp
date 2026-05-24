@@ -1,62 +1,90 @@
-import { useState, useEffect } from 'react';
-import { Html5QrcodeScanner } from 'html5-qrcode';
+import { useState, useRef, useCallback, useEffect } from 'react';
+import Webcam from 'react-webcam';
+import jsQR from 'jsqr';
 import { useAttendanceStore } from '../store/useAttendanceStore';
 import Swal from 'sweetalert2';
 import { Camera, CheckCircle } from 'lucide-react';
 
 export default function OfficerScanner() {
+  const webcamRef = useRef(null);
   const [scanResult, setScanResult] = useState(null);
+  const [isPaused, setIsPaused] = useState(false);
   const { addLog } = useAttendanceStore();
 
-  useEffect(() => {
-    const scanner = new Html5QrcodeScanner('reader', {
-      qrbox: { width: 250, height: 250 },
-      fps: 10,
-    });
+  // Konfigurasi Kamera Belakang
+  const videoConstraints = {
+    width: { ideal: 720 },
+    height: { ideal: 720 }, // Meminta rasio mendekati kotak jika hardware mendukung
+    facingMode: "environment"
+  };
 
-    scanner.render(
-      (decodedText) => {
-        // Dummy verification
-        if (decodedText.startsWith('ITC-ATT-')) {
-          setScanResult(decodedText);
-          scanner.pause();
-          
-          Swal.fire({
-            icon: 'success',
-            title: 'Berhasil',
-            text: 'Kehadiran tercatat.',
-            timer: 2000,
-            showConfirmButton: false,
-            customClass: { popup: 'rounded-none border border-hairline' }
-          }).then(() => {
-            addLog({
-              id: Date.now(),
-              studentName: 'Anggota Scan',
-              time: new Date().toLocaleTimeString(),
-              status: 'Hadir'
-            });
-            setScanResult(null);
-            scanner.resume();
-          });
-        }
-      },
-      (error) => {
-        // ignore errors during continuous scanning
+  const capture = useCallback(() => {
+    if (isPaused) return;
+
+    const imageSrc = webcamRef.current?.getCanvas();
+    if (imageSrc) {
+      const canvas = imageSrc;
+      const ctx = canvas.getContext('2d');
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      
+      // Membaca QR Code dari data gambar
+      const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+      if (code && code.data.startsWith('ITC-ATT-')) {
+        handleSuccess(code.data);
       }
-    );
+    }
+  }, [isPaused]);
 
-    return () => {
-      scanner.clear().catch(console.error);
-    };
-  }, [addLog]);
+  // Loop untuk scanning frame demi frame
+  useEffect(() => {
+    const interval = setInterval(capture, 300); // Scan setiap 300ms
+    return () => clearInterval(interval);
+  }, [capture]);
+
+  const handleSuccess = (decodedText) => {
+    setIsPaused(true);
+    setScanResult(decodedText);
+    
+    Swal.fire({
+      icon: 'success',
+      title: 'Berhasil',
+      text: 'Kehadiran tercatat.',
+      timer: 2000,
+      showConfirmButton: false,
+      customClass: { popup: 'rounded-none border border-hairline' }
+    }).then(() => {
+      addLog({
+        id: Date.now(),
+        studentName: 'Anggota Scan',
+        time: new Date().toLocaleTimeString(),
+        status: 'Hadir'
+      });
+      setScanResult(null);
+      setIsPaused(false);
+    });
+  };
 
   return (
     <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
       <div>
         <h1 className="text-[24px] font-light mb-6">Pemindai Kehadiran</h1>
         <div className="bg-canvas border border-hairline p-4">
-          <div id="reader" className="w-full"></div>
-          {/* Note: html5-qrcode injects its own UI which we might need to style via CSS overrides in index.css */}
+          {/* Container Kamera - Dibuat kotak dengan aspect-square */}
+          <div className="relative w-full max-w-sm mx-auto aspect-square overflow-hidden rounded-sm bg-black">
+            <Webcam
+              audio={false}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              videoConstraints={videoConstraints}
+              // object-cover memastikan video tidak gepeng saat di-crop menjadi kotak
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            {/* Overlay Garis Scan */}
+            {!isPaused && (
+              <div className="absolute inset-8 md:inset-12 border-2 border-dashed border-semantic-success/50 pointer-events-none animate-pulse"></div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -67,12 +95,12 @@ export default function OfficerScanner() {
           <div className="bg-semantic-success/10 border border-semantic-success p-6 flex flex-col items-center justify-center text-center mb-6">
             <CheckCircle className="w-12 h-12 text-semantic-success mb-4" />
             <h3 className="text-[18px] text-ink font-medium">Scan Berhasil</h3>
-            <p className="text-[14px] text-ink-muted mt-2">Data kehadiran telah disimpan ke dalam sistem.</p>
+            <p className="text-[14px] text-ink-muted mt-2">{scanResult}</p>
           </div>
         ) : (
           <div className="bg-surface-1 border border-hairline p-6 flex flex-col items-center justify-center text-center mb-6 h-[180px]">
             <Camera className="w-8 h-8 text-ink-subtle mb-4" />
-            <p className="text-[14px] text-ink-muted">Menunggu pemindaian QR Code...</p>
+            <p className="text-[14px] text-ink-muted">Mengarahkan kamera ke QR Code...</p>
           </div>
         )}
 
@@ -82,10 +110,6 @@ export default function OfficerScanner() {
             <div className="flex justify-between items-center text-[12px]">
               <span className="font-medium text-ink">Budi Santoso</span>
               <span className="text-ink-muted">16:10:05</span>
-            </div>
-            <div className="flex justify-between items-center text-[12px]">
-              <span className="font-medium text-ink">Andi Wijaya</span>
-              <span className="text-ink-muted">16:08:22</span>
             </div>
           </div>
         </div>
