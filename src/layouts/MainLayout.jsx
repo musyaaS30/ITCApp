@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 
 export default function MainLayout() {
   return (
-    <div className="min-h-screen flex flex-col md:mx-40">
+    <div className="min-h-screen flex flex-col w-full 2xl:mx-40 2xl:w-auto transition-all duration-300">
       {/* Top Nav */}
       <Navbar />
 
